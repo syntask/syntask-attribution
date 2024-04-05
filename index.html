@@ -109,7 +109,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check if the custom font is loaded before proceeding
     checkFontLoaded('SF-Mono-Regular', function() {
         updateContainerWidth();
-        revealText();
+        // Set up Intersection Observer instead of directly calling revealText()
+        let observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    revealText();
+                    observer.unobserve(target); // Stop observing after visible
+                }
+            });
+        }, {threshold: 0.5}); // Adjust threshold as needed
+
+        observer.observe(target);
     });
 });
 
