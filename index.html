@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>syntask</title>
+    <style>
+        @font-face {
+            font-family: SF-Mono-Regular;
+            src: url(SF-Mono-Regular.otf);
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            background-color: #00000000;
+        }
+
+        .text-container {
+            font-size: 14px;
+            font-family: SF-Mono-Regular;
+            color: black;
+            white-space: pre; 
+        }
+        .attribution {
+            font-size: 8px;
+            font-family: SF-Mono-Regular, monospace;
+            color: black;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div>
+	<div class="attribution">
+		Created by
+	</div>
+	<div id="textReveal" class="text-container">
+	</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const target = document.getElementById('textReveal');
+    const text = 'syntask';
+    let revealedText = '';
+    let index = 0;
+    let caretActive = true;
+
+    function checkFontLoaded(fontName, callback) {
+        let testElement = document.createElement('span');
+        testElement.style.fontFamily = '"Courier New", monospace'; // Use a default font
+        testElement.style.fontSize = '14px';
+        testElement.style.position = 'absolute';
+        testElement.style.visibility = 'hidden';
+        testElement.textContent = 'QW@HhsX!';
+        document.body.appendChild(testElement);
+        
+        // Measure default font width
+        const defaultWidth = testElement.offsetWidth;
+
+        // Change to the custom font
+        testElement.style.fontFamily = fontName + ', "Courier New", monospace';
+
+        function checkWidth() {
+            // Compare widths; if different, custom font has loaded
+            if(testElement.offsetWidth !== defaultWidth) {
+                document.body.removeChild(testElement);
+                callback();
+            } else {
+                setTimeout(checkWidth, 1); // Check again after a delay
+            }
+        }
+
+        checkWidth();
+    }
+
+    function updateContainerWidth() {
+        const charWidth = document.createElement('span');
+        charWidth.className = 'text-container';
+        charWidth.textContent = text + '█';
+        document.body.appendChild(charWidth);
+        const width = charWidth.offsetWidth;
+        document.body.removeChild(charWidth);
+
+        target.style.width = `${width}px`;
+    }
+
+    function revealText() {
+        if(index < text.length) {
+            revealedText += text.charAt(index);
+            target.innerHTML = revealedText + '█';
+            index++;
+            setTimeout(revealText, 40);
+        } else {
+            if(caretActive) {
+                target.innerHTML = revealedText + '█';
+                caretActive = false;
+            } else {
+                target.innerHTML = revealedText;
+                caretActive = true;
+            }
+            setTimeout(revealText, 600);
+        }
+    }
+
+    // Check if the custom font is loaded before proceeding
+    checkFontLoaded('SF-Mono-Regular', function() {
+        updateContainerWidth();
+        revealText();
+    });
+});
+
+</script>
+</body>
+</html>
