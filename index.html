@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const target = document.getElementById('textReveal');
     const text = 'syntask';
     let revealedText = '';
+    let preIndex = 0;
     let index = 0;
     let caretActive = true;
 
@@ -89,9 +90,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function revealText() {
-        if(index < text.length) {
+        if (preIndex < 4) {
+            if(caretActive) {
+                target.innerHTML = '█';
+                caretActive = false;
+            } else {
+                target.innerHTML = '&nbsp;';
+                caretActive = true;
+            }
+            preIndex++;
+            setTimeout(revealText, 600);
+        } else if(index < text.length) {
             revealedText += text.charAt(index);
             target.innerHTML = revealedText + '█';
+            caretActive = true;
             index++;
             setTimeout(revealText, 40);
         } else {
