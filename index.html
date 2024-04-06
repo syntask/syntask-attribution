@@ -25,7 +25,7 @@
 
         .text-container {
             font-size: 14px;
-            font-family: JetBrainsMono-Regular;
+            font-family: JetBrainsMono-Bold;
             color: black;
             white-space: pre; 
         }
@@ -43,7 +43,7 @@
 		Created by
 	</div>
 	<div id="textReveal" class="text-container">
-		&nbsp;
+		Syntask
 	</div>
 </div>
 <script>
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function checkFontLoaded(fontName, callback) {
         let testElement = document.createElement('span');
-        testElement.style.fontFamily = '"Courier New", monospace'; // Use a default font
+        testElement.style.fontFamily = '"Arial"'; // Use a default font
         testElement.style.fontSize = '14px';
         testElement.style.position = 'absolute';
         testElement.style.visibility = 'hidden';
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const defaultWidth = testElement.offsetWidth;
 
         // Change to the custom font
-        testElement.style.fontFamily = fontName + ', "Courier New", monospace';
+        testElement.style.fontFamily = fontName + ', "Arial"';
 
         function checkWidth() {
             // Compare widths; if different, custom font has loaded
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function revealText() {
-        if (preIndex < 4) {
+        if (preIndex < 2) {
             if(caretActive) {
                 target.innerHTML = '█';
                 caretActive = false;
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Check if the custom font is loaded before proceeding
-    checkFontLoaded('JetBrainsMono-Regular', function() {
+    checkFontLoaded('JetBrainsMono-Bold', function() {
         updateContainerWidth();
         // Set up Intersection Observer instead of directly calling revealText()
         let observer = new IntersectionObserver(function(entries, observer) {
