@@ -25,7 +25,7 @@
 
         .text-container {
             font-size: 14px;
-            font-family: JetBrainsMono-Bold;
+            font-family: JetBrainsMono-Regular;
             color: black;
             white-space: pre; 
         }
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Check if the custom font is loaded before proceeding
-    checkFontLoaded('JetBrainsMono-Bold', function() {
+    checkFontLoaded('JetBrainsMono-Regular', function() {
         updateContainerWidth();
         // Set up Intersection Observer instead of directly calling revealText()
         let observer = new IntersectionObserver(function(entries, observer) {
