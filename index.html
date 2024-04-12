@@ -23,123 +23,31 @@
             background-color: #00000000;
         }
 
-        .text-container {
-            font-size: 14px;
+        .line2 {
+            font-size: 10px;
             font-family: JetBrainsMono-Bold;
             color: black;
             white-space: pre; 
         }
-        .attribution {
-            font-size: 8px;
+        .line1 {
+            font-size: 6px;
             font-family: JetBrainsMono-Regular;
             color: black;
             text-align: left;
         }
+	.container{
+	    width: max-content;
+	}
     </style>
 </head>
 <body>
-<div>
-	<div class="attribution">
+<div class="container">
+	<div class="line1">
 		Created by
 	</div>
-	<div id="textReveal" class="text-container">
-		Syntask
+	<div class="line2">
+		Syntask█
 	</div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const target = document.getElementById('textReveal');
-    const text = 'syntask';
-    let revealedText = '';
-    let preIndex = 0;
-    let index = 0;
-    let caretActive = true;
-
-    function checkFontLoaded(fontName, callback) {
-        let testElement = document.createElement('span');
-        testElement.style.fontFamily = '"Arial"'; // Use a default font
-        testElement.style.fontSize = '14px';
-        testElement.style.position = 'absolute';
-        testElement.style.visibility = 'hidden';
-        testElement.textContent = 'QW@HhsX!';
-        document.body.appendChild(testElement);
-        
-        // Measure default font width
-        const defaultWidth = testElement.offsetWidth;
-
-        // Change to the custom font
-        testElement.style.fontFamily = fontName + ', "Arial"';
-
-        function checkWidth() {
-            // Compare widths; if different, custom font has loaded
-            if(testElement.offsetWidth !== defaultWidth) {
-                document.body.removeChild(testElement);
-                callback();
-            } else {
-                setTimeout(checkWidth, 1); // Check again after a delay
-            }
-        }
-
-        checkWidth();
-    }
-
-    function updateContainerWidth() {
-        const charWidth = document.createElement('span');
-        charWidth.className = 'text-container';
-        charWidth.textContent = text + '█';
-        document.body.appendChild(charWidth);
-        const width = charWidth.offsetWidth;
-        document.body.removeChild(charWidth);
-
-        target.style.width = `${width}px`;
-    }
-
-    function revealText() {
-        if (preIndex < 2) {
-            if(caretActive) {
-                target.innerHTML = '█';
-                caretActive = false;
-            } else {
-                target.innerHTML = '&nbsp;';
-                caretActive = true;
-            }
-            preIndex++;
-            setTimeout(revealText, 600);
-        } else if(index < text.length) {
-            revealedText += text.charAt(index);
-            target.innerHTML = revealedText + '█';
-            caretActive = true;
-            index++;
-            setTimeout(revealText, 40);
-        } else {
-            if(caretActive) {
-                target.innerHTML = revealedText + '█';
-                caretActive = false;
-            } else {
-                target.innerHTML = revealedText;
-                caretActive = true;
-            }
-            setTimeout(revealText, 600);
-        }
-    }
-
-    // Check if the custom font is loaded before proceeding
-    checkFontLoaded('JetBrainsMono-Bold', function() {
-        updateContainerWidth();
-        // Set up Intersection Observer instead of directly calling revealText()
-        let observer = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    revealText();
-                    observer.unobserve(target); // Stop observing after visible
-                }
-            });
-        }, {threshold: 0.5}); // Adjust threshold as needed
-
-        observer.observe(target);
-    });
-});
-
-</script>
 </body>
 </html>
